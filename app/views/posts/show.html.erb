@@ -1,0 +1,39 @@
+<h1>Post Show Page</h1>
+
+    <div class="card mt-3">
+        <div class="card-body">
+          <h4 class="card-title fs-3"><%= @post.title  %> </h4>
+          <p class="card-text "><%= @post.body %> </p>
+          <small><%= time_ago_in_words(@post.created_at) %> ago</small>
+          <div class="row justify-content-center">
+            <div class="col">
+                <%= link_to "Edit", edit_post_path(@post), method: :post, class: "btn btn-outline-info" %>
+            </div>
+            <div class="col">
+                <%= button_to "Delete", post_path(@post), method: :delete, class: "btn btn-outline-danger" %>
+            </div>
+            <div class="col-10"></div>
+          </div>
+        </div>
+    </div>
+  <ul>
+  <h3>Comment</h3>
+<%= form_with model:@comment, url: post_comments_path(@post), class: "m-3 mb-3" do |f|%>
+
+    <div class="mb-3">
+        <%= f.label :body, class: "form-label"%>
+        <%= f.text_area :body, class: "form-control"%>
+    </div>
+    <div class="d-grid justify-content-md-start" >
+        <%= f.submit "submit", class: "btn btn-outline-primary mb-3"%>
+    </div>
+<% end %>
+
+  <% @comments.each do |comment| %>
+  <div class="card-body">
+    <p class="card-text "><%= comment.body %> 
+    </p>
+    <small><%= time_ago_in_words(comment.created_at) %> ago </small>
+    <%= button_to "Delete", post_comment_path(@post.id, comment.id),method: :delete,class: "btn btn-outline-danger"  %>
+  </div>
+  <% end %>
