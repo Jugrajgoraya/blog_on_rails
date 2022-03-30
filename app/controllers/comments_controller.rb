@@ -3,6 +3,7 @@ class CommentsController < ApplicationController
     before_action :find_post
     def create
         @comment = Comment.new params.require(:comment).permit(:body)
+        @comment.user = current_user
         @comment.post = @post
         if @comment.save
             redirect_to post_path(@post)
